@@ -8,6 +8,7 @@
   "content-database": "%%mlFinalDbName%%",
   "authentication": "%%mlFinalAuth%%",
   "default-error-format": "json",
+  "distribute-timestamps": "cluster",
   "error-handler": "/MarkLogic/rest-api/error-handler.xqy",
   "url-rewriter": "/MarkLogic/rest-api/rewriter.xml",
   "rewrite-resolves-globally": true

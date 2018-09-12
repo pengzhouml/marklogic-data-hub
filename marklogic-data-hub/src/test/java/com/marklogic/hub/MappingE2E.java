@@ -92,7 +92,7 @@ public class MappingE2E extends HubTestBase {
 
     @AfterAll
     public static void teardown() {
-        new Installer().uninstallHub();
+        //new Installer().uninstallHub();
     }
 
     private static boolean isSetup = false;
@@ -428,7 +428,9 @@ public class MappingE2E extends HubTestBase {
 
             assertEquals(finalCounts.stagingCount, stagingCount);
             assertEquals(finalCounts.finalCount, finalCount);
-            assertEquals(finalCounts.tracingCount, tracingCount);
+            if(! isLBRun()) {
+            	assertEquals(finalCounts.tracingCount, tracingCount);
+            }
             assertEquals(finalCounts.jobCount, jobsCount);
 
             assertEquals(finalCounts.completedCount, completed.size());

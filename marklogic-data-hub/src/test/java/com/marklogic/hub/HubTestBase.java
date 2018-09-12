@@ -154,6 +154,7 @@ public class HubTestBase {
     private  HashMap<File, String> originalServerFiles= new HashMap<File, String>();
 	private  boolean sslRun = false;
     private  boolean certAuth = false;
+    private  boolean isLBRun = false;
     private  SSLContext datahubadmincertContext = null;
     private  SSLContext flowRunnercertContext = null;
     private  SSLContext certContext = null;
@@ -291,6 +292,10 @@ public class HubTestBase {
         jobDocMgr = getJobMgr();
         traceDocMgr = getTraceMgr();
         modMgr = getModMgr();
+        String lbh = properties.getProperty("mlLoadBalancerHosts");
+        if (lbh != null && lbh.length() > 0) {
+        	isLBRun = true;
+        }
     }
 
     protected DatabaseClient getClient(String host, int port, String dbName, String user,String password, Authentication authMethod) throws Exception {
@@ -329,11 +334,15 @@ public class HubTestBase {
 	}
 
     protected void enableDebugging() {
-        Debugging.create(stagingClient).enable();
+    	if(getHubAdminConfig().getLoadBalancerHosts().length==0) {
+    		Debugging.create(stagingClient).enable();
+    	}
     }
 
     protected void disableDebugging() {
-        Debugging.create(stagingClient).disable();
+    	if(getHubAdminConfig().getLoadBalancerHosts().length==0) {
+    		Debugging.create(stagingClient).disable();
+    	}
     }
 
     protected void enableTracing() {
@@ -475,6 +484,10 @@ public class HubTestBase {
     	adminManager = new AdminManager(adminConfig);
     	((HubConfigImpl)hubConfig).setAdminManager(adminManager);
         return hubConfig;
+    }
+    
+    public boolean isLBRun() {
+    	return isLBRun;
     }
 
     public void createProjectDir() {

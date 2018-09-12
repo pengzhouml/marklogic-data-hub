@@ -20,6 +20,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.marklogic.client.DatabaseClient;
 import com.marklogic.client.FailedRequestException;
 import com.marklogic.client.datamovement.DataMovementManager;
+import com.marklogic.client.datamovement.FilteredForestConfiguration;
 import com.marklogic.client.datamovement.JobTicket;
 import com.marklogic.client.datamovement.WriteBatcher;
 import com.marklogic.client.document.GenericDocumentManager;
@@ -116,12 +117,12 @@ public class EndToEndFlowTests extends HubTestBase {
     @BeforeAll
     public static void setup() {
         XMLUnit.setIgnoreWhitespace(true);
-        new Installer().installHubOnce();
+        //new Installer().installHubOnce();
     }
 
     @AfterAll
     public static void teardown() {
-    	new Installer().uninstallHub();
+    	//new Installer().uninstallHub();
     }
 
     private static boolean isSetup = false;
@@ -981,8 +982,12 @@ public class EndToEndFlowTests extends HubTestBase {
     private void installDocs(DataFormat dataFormat, String collection, DatabaseClient srcClient, boolean useEs, int testSize) {
         DataMovementManager mgr = srcClient.newDataMovementManager();
 
-        WriteBatcher writeBatcher = mgr.newWriteBatcher()
-            .withBatchSize(100)
+        WriteBatcher writeBatcher = mgr.newWriteBatcher();
+        if(isLBRun()) {
+        	writeBatcher =  writeBatcher.withForestConfig(
+  		          new FilteredForestConfiguration(mgr.readForestConfig()).withWhiteList(getHubAdminConfig().getLoadBalancerHosts()));
+        }
+        writeBatcher.withBatchSize(100)
             .withThreadCount(4)
             .onBatchSuccess(batch -> installDocsFinished = true)
             .onBatchFailure((batch, failure) -> {
@@ -1022,7 +1027,7 @@ public class EndToEndFlowTests extends HubTestBase {
     }
 
     private void testInputFlowViaMlcp(String prefix, String fileSuffix, DatabaseClient databaseClient, CodeFormat codeFormat, DataFormat dataFormat, boolean useEs, Map<String, Object> options, FinalCounts finalCounts) throws InterruptedException, TransformerException {
-    	if(isCertAuth() || isSslRun()) {
+    	if(isCertAuth() || isSslRun() || isLBRun()) {
     		return;
     	}
     	clearDatabases(HubConfig.DEFAULT_STAGING_NAME, HubConfig.DEFAULT_FINAL_NAME, HubConfig.DEFAULT_JOB_NAME);
@@ -1031,7 +1036,9 @@ public class EndToEndFlowTests extends HubTestBase {
 
         assertEquals(0, getStagingDocCount());
         assertEquals(0, getFinalDocCount());
-        assertEquals(0, getTracingDocCount());
+        if(!isLBRun()) {
+        	assertEquals(0, getTracingDocCount());
+        }
         assertEquals(0, getJobDocCount());
 
         Flow flow = flowManager.getFlow(ENTITY, flowName, FlowType.INPUT);
@@ -1055,6 +1062,9 @@ public class EndToEndFlowTests extends HubTestBase {
                     "\"output_permissions\":\"\\\"rest-reader,read,rest-writer,update\\\"\"," +
                     "\"output_uri_replace\":\"\\\"" + basePath.replace("\\", "/").replaceAll("^([A-Za-z]):", "/$1:") + ",''\\\"\"," +
                     "\"document_type\":\"\\\"" + dataFormat.toString() + "\\\"\",";
+            if(isLBRun()) {
+            	optionsJson += "\"restrict_hosts\":true,";
+            }
             if (codeFormat.equals(CodeFormat.JAVASCRIPT)) {
                 optionsJson +=
                     "\"transform_module\":\"\\\"/data-hub/4/transforms/mlcp-flow-transform.sjs\\\"\"," +
@@ -1093,7 +1103,9 @@ public class EndToEndFlowTests extends HubTestBase {
         assertEquals(finalCounts.stagingCount, stagingCount);
         assertEquals(finalCounts.finalCount, finalCount);
         // most currently failing tests are cause of trace.
-        assertEquals(finalCounts.tracingCount, tracingCount);
+        if(!isLBRun()) {
+        	assertEquals(finalCounts.tracingCount, tracingCount);
+        }
         assertEquals(finalCounts.jobCount, jobsCount);
 
         if (databaseClient.getDatabase().equals(HubConfig.DEFAULT_STAGING_NAME) && finalCounts.stagingCount == 1) {
@@ -1169,7 +1181,9 @@ public class EndToEndFlowTests extends HubTestBase {
 
         assertEquals(0, stagingCount);
         assertEquals(0, finalCount);
-        assertEquals(0, tracingCount);
+        if(!isLBRun()) {
+        	assertEquals(0, tracingCount);
+        }
         assertEquals(0, jobsCount);
 
         String transform = codeFormat.equals(CodeFormat.JAVASCRIPT) ? "ml:sjsInputFlow" : "ml:inputFlow";
@@ -1211,7 +1225,9 @@ public class EndToEndFlowTests extends HubTestBase {
 
         assertEquals(finalCounts.stagingCount, stagingCount);
         assertEquals(finalCounts.finalCount, finalCount);
-        assertEquals(finalCounts.tracingCount, tracingCount);
+        if(!isLBRun()) {
+        	assertEquals(finalCounts.tracingCount, tracingCount);
+        }
         assertEquals(finalCounts.jobCount, jobsCount);
 
         if (finalCounts.stagingCount == 1) {
@@ -1256,7 +1272,9 @@ public class EndToEndFlowTests extends HubTestBase {
 
         assertEquals(0, stagingCount);
         assertEquals(0, finalCount);
-        assertEquals(0, tracingCount);
+        if(!isLBRun()) {
+        	assertEquals(0, tracingCount);
+        }
         assertEquals(0, jobsCount);
 
         String transform = codeFormat.equals(CodeFormat.JAVASCRIPT) ? "ml:sjsInputFlow" : "ml:inputFlow";
@@ -1282,6 +1300,10 @@ public class EndToEndFlowTests extends HubTestBase {
         handle.setFormat(format);
 
         WriteBatcher batcher = flowRunnerDataMovementManager.newWriteBatcher();
+        if(isLBRun()) {
+        	batcher =  batcher.withForestConfig(
+  		          new FilteredForestConfiguration(flowRunnerDataMovementManager.readForestConfig()).withWhiteList(getHubAdminConfig().getLoadBalancerHosts()));
+        }
         batcher.withBatchSize(1).withTransform(serverTransform);
         batcher.onBatchSuccess(batch -> {
 		}).onBatchFailure((batch, throwable) -> {
@@ -1298,7 +1320,9 @@ public class EndToEndFlowTests extends HubTestBase {
 
         assertEquals(finalCounts.stagingCount, stagingCount);
         assertEquals(finalCounts.finalCount, finalCount);
-        assertEquals(finalCounts.tracingCount, tracingCount);
+        if(!isLBRun()) {
+        	assertEquals(finalCounts.tracingCount, tracingCount);
+        }
         assertEquals(finalCounts.jobCount, jobsCount);
 
         if (finalCounts.stagingCount == 1) {
@@ -1353,7 +1377,9 @@ public class EndToEndFlowTests extends HubTestBase {
 
         assertEquals(0, getStagingDocCount());
         assertEquals(0, getFinalDocCount());
-        assertEquals(0, getTracingDocCount());
+        if(!isLBRun()) {
+        	assertEquals(0, getTracingDocCount());
+        }
         assertEquals(0, getJobDocCount());
 
         installDocs(dataFormat, ENTITY, srcClient, useEs, testSize);
@@ -1417,7 +1443,9 @@ public class EndToEndFlowTests extends HubTestBase {
 
             assertEquals(finalCounts.stagingCount, stagingCount);
             assertEquals(finalCounts.finalCount, finalCount);
-            assertEquals(finalCounts.tracingCount, tracingCount);
+            if(!isLBRun()) {
+            	assertEquals(finalCounts.tracingCount, tracingCount);
+            }
             assertEquals(finalCounts.jobCount, jobsCount);
 
             assertEquals(finalCounts.completedCount, completed.size());
@@ -1502,7 +1530,9 @@ public class EndToEndFlowTests extends HubTestBase {
 
         assertEquals(finalCounts.stagingCount, stagingCount);
         assertEquals(finalCounts.finalCount, finalCount);
-        assertEquals(finalCounts.tracingCount, tracingCount);
+        if(!isLBRun()) {
+        	assertEquals(finalCounts.tracingCount, tracingCount);
+        }
         assertEquals(finalCounts.jobCount, jobsCount);
 
         assertEquals(finalCounts.completedCount, completed.size());
@@ -1518,3 +1548,4 @@ public class EndToEndFlowTests extends HubTestBase {
         assertEquals(finalCounts.jobStatus, node.get("status").asText());
    }
 }
+
