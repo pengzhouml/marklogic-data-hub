@@ -92,7 +92,7 @@ public class MappingE2E extends HubTestBase {
 
     @AfterAll
     public static void teardown() {
-        //new Installer().uninstallHub();
+        new Installer().uninstallHub();
     }
 
     private static boolean isSetup = false;
