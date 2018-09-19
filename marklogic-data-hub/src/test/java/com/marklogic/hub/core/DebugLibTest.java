@@ -14,6 +14,7 @@ import com.marklogic.hub.scaffold.Scaffolding;
 
 import org.junit.AfterClass;
 import org.junit.Assert;
+import org.junit.Assume;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -32,6 +33,7 @@ public class DebugLibTest extends HubTestBase {
 
     @Before
     public void setup() {
+    	Assume.assumeTrue(!isLBRun());
         basicSetup();
 
         Scaffolding scaffolding = Scaffolding.create(PROJECT_PATH, stagingClient);

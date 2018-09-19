@@ -17,6 +17,7 @@ package com.marklogic.hub.collector;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.marklogic.client.datamovement.DataMovementManager;
+import com.marklogic.client.datamovement.FilteredForestConfiguration;
 import com.marklogic.client.datamovement.JobTicket;
 import com.marklogic.client.datamovement.WriteBatcher;
 import com.marklogic.client.io.DocumentMetadataHandle;
@@ -86,10 +87,13 @@ public class StreamCollectorTest extends HubTestBase {
 
         installModule("/entities/" + ENTITY + "/harmonize/testharmonize/collector.xqy", "stream-collector-test/collector.xqy");
         installModule("/entities/" + ENTITY + "/harmonize/testharmonize/content.xqy", "stream-collector-test/content.xqy");
-
+        
         DataMovementManager stagingDataMovementManager = stagingClient.newDataMovementManager();
-        WriteBatcher writeBatcher = stagingDataMovementManager.newWriteBatcher()
-            .withBatchSize(2000)
+        WriteBatcher writeBatcher = stagingDataMovementManager.newWriteBatcher();
+        if(isLBRun()) {
+        	writeBatcher = writeBatcher.withForestConfig(new FilteredForestConfiguration(stagingDataMovementManager.readForestConfig()).withWhiteList(host));
+        }
+        writeBatcher=writeBatcher.withBatchSize(2000)
             .withThreadCount(8)
             .onBatchSuccess(batch -> installDocsFinished = true)
             .onBatchFailure((batch, failure) -> {

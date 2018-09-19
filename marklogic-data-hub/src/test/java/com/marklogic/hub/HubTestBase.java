@@ -334,13 +334,13 @@ public class HubTestBase {
 	}
 
     protected void enableDebugging() {
-    	if(getHubAdminConfig().getLoadBalancerHosts().length==0) {
+    	if(!isLBRun()) {
     		Debugging.create(stagingClient).enable();
     	}
     }
 
     protected void disableDebugging() {
-    	if(getHubAdminConfig().getLoadBalancerHosts().length==0) {
+    	if(!isLBRun()) {
     		Debugging.create(stagingClient).disable();
     	}
     }

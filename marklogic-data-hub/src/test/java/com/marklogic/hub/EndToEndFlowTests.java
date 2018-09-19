@@ -1027,7 +1027,7 @@ public class EndToEndFlowTests extends HubTestBase {
     }
 
     private void testInputFlowViaMlcp(String prefix, String fileSuffix, DatabaseClient databaseClient, CodeFormat codeFormat, DataFormat dataFormat, boolean useEs, Map<String, Object> options, FinalCounts finalCounts) throws InterruptedException, TransformerException {
-    	if(isCertAuth() || isSslRun()) {
+    	if(isCertAuth() || isSslRun() || isLBRun()) {
     		return;
     	}
     	clearDatabases(HubConfig.DEFAULT_STAGING_NAME, HubConfig.DEFAULT_FINAL_NAME, HubConfig.DEFAULT_JOB_NAME);

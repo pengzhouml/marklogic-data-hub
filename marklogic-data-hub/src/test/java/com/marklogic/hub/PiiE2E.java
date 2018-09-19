@@ -13,6 +13,7 @@ import com.marklogic.client.DatabaseClient;
 import com.marklogic.client.DatabaseClientFactory;
 import com.marklogic.client.DatabaseClientFactory.Authentication;
 import com.marklogic.client.datamovement.DataMovementManager;
+import com.marklogic.client.datamovement.FilteredForestConfiguration;
 import com.marklogic.client.datamovement.WriteBatcher;
 import com.marklogic.client.document.ServerTransform;
 import com.marklogic.client.io.DocumentMetadataHandle;
@@ -56,7 +57,7 @@ public class PiiE2E extends HubTestBase {
     private static File projectDir = projectPath.toFile();
     private static DatabaseClient clerkClient, officerClient;
     private static boolean e2eInit = false;
-
+    private WriteBatcher batcher = null;
     @AfterAll
     public static void teardown() {
         new Installer().uninstallHub();
@@ -275,7 +276,10 @@ public class PiiE2E extends HubTestBase {
         runFlow.addParameter("job-id", UUID.randomUUID().toString());
 
         DataMovementManager stagingDataMovementManager = flowRunnerClient.newDataMovementManager();
-        WriteBatcher batcher = stagingDataMovementManager.newWriteBatcher();
+        batcher = stagingDataMovementManager.newWriteBatcher();
+        if(isLBRun()) {
+        	batcher = batcher.withForestConfig(new FilteredForestConfiguration(stagingDataMovementManager.readForestConfig()).withWhiteList(host));
+        }
         batcher.withBatchSize(1).withTransform(runFlow);
         batcher.onBatchSuccess(batch -> {
 		}).onBatchFailure((batch, throwable) -> {

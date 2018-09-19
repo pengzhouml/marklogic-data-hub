@@ -25,6 +25,7 @@ import com.marklogic.hub.scaffold.Scaffolding;
 
 import org.custommonkey.xmlunit.XMLUnit;
 import org.junit.After;
+import org.junit.Assume;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -57,7 +58,7 @@ public class JobManagerTest extends HubTestBase {
 
     @Before
     public void setupStuff() throws InterruptedException, IOException {
-        XMLUnit.setIgnoreWhitespace(true);
+    	XMLUnit.setIgnoreWhitespace(true);
         deleteProjectDir();
 
         createProjectDir();
@@ -211,6 +212,7 @@ public class JobManagerTest extends HubTestBase {
 
     @Test
     public void exportOneJob() throws IOException {
+    	Assume.assumeTrue(!isLBRun());
         JobManager manager = JobManager.create(jobClient);
 
         File zipFile = exportPath.toFile();
@@ -230,6 +232,7 @@ public class JobManagerTest extends HubTestBase {
 
     @Test
     public void exportMultipleJobs() throws IOException, InterruptedException {
+    	Assume.assumeTrue(!isLBRun());
         JobManager manager = JobManager.create(jobClient);
 
         File zipFile = exportPath.toFile();
@@ -248,6 +251,7 @@ public class JobManagerTest extends HubTestBase {
 
     @Test
     public void exportAllJobs() throws IOException {
+    	Assume.assumeTrue(!isLBRun());
         JobManager manager = JobManager.create(jobClient);
 
         File zipFile = exportPath.toFile();
@@ -281,6 +285,7 @@ public class JobManagerTest extends HubTestBase {
 
     @Test
     public void importJobs() throws URISyntaxException, IOException {
+    	Assume.assumeTrue(!isLBRun());
         URL url = JobManagerTest.class.getClassLoader().getResource("job-manager-test/jobexport.zip");
 
         clearDatabases(HubConfig.DEFAULT_JOB_NAME);

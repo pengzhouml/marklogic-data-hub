@@ -27,7 +27,7 @@ import org.junit.runners.Suite.SuiteClasses;
     DiskQueueTest.class,
     EmptyCollectorTest.class,
     StreamCollectorTest.class,
-    DataHubInstallTest.class,
+    //DataHubInstallTest.class,
     DataHubTest.class,
     DebugLibTest.class,
     HubConfigTest.class,
@@ -51,12 +51,12 @@ public class CoreTestSuite {
 
     @BeforeClass
     public static void setUp() {
-        new Installer().installHubOnce();
+        //new Installer().installHubOnce();
     }
 
     @AfterClass
     public static void tearDown() {
-        new Installer().uninstallHub();
+        //new Installer().uninstallHub();
     }
 
 }
