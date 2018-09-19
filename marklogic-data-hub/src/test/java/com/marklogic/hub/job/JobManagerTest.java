@@ -131,14 +131,18 @@ public class JobManagerTest extends HubTestBase {
     @Test
     public void deleteOneJob() {
         assertEquals(4, getJobDocCount());
-        assertEquals(8, getTracingDocCount());
+        if(!isLBRun()) {
+        	assertEquals(8, getTracingDocCount());
+        }
         JobManager manager = JobManager.create(jobClient);
         String jobs = jobIds.get(1);
 
         JobDeleteResponse actual = manager.deleteJobs(jobs);
 
         assertEquals(3, getJobDocCount());
-        assertEquals(6, getTracingDocCount());
+        if(!isLBRun()) {
+        	assertEquals(6, getTracingDocCount());
+        }
         assertEquals(1, actual.totalCount);
         assertEquals(0, actual.errorCount);
 
@@ -146,8 +150,9 @@ public class JobManagerTest extends HubTestBase {
         deleteJobsExpected.add(jobIds.get(1));
         assertEquals(deleteJobsExpected.size(), actual.deletedJobs.size());
         assertTrue(deleteJobsExpected.containsAll(actual.deletedJobs));
-
-        assertEquals(2, actual.deletedTraces.size());
+        if(!isLBRun()) {
+        	assertEquals(2, actual.deletedTraces.size());
+        }
     }
 
     @Test
@@ -174,8 +179,9 @@ public class JobManagerTest extends HubTestBase {
         deleteJobsExpected.add(jobIds.get(2));
         assertEquals(deleteJobsExpected.size(), actual.deletedJobs.size());
         assertTrue(deleteJobsExpected.containsAll(actual.deletedJobs));
-
-        assertEquals(4, actual.deletedTraces.size());
+        if(!isLBRun()) {
+        	assertEquals(4, actual.deletedTraces.size());
+        }
     }
 
     @Test
