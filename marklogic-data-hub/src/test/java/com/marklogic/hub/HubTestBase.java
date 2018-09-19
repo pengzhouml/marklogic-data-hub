@@ -345,6 +345,7 @@ public class HubTestBase {
     	}
     }
 
+    // TODO, inject tracing
     protected void enableTracing() {
         Tracing.create(stagingClient).enable();
     }
