@@ -334,15 +334,11 @@ public class HubTestBase {
 	}
 
     protected void enableDebugging() {
-    	if(!isLBRun()) {
-    		Debugging.create(stagingClient).enable();
-    	}
+    	Debugging.create(stagingClient).enable();    	
     }
 
     protected void disableDebugging() {
-    	if(!isLBRun()) {
-    		Debugging.create(stagingClient).disable();
-    	}
+    	Debugging.create(stagingClient).disable();    	
     }
 
     // TODO, inject tracing

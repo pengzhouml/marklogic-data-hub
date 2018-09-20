@@ -1,6 +1,7 @@
 package com.marklogic.hub.core;
 
 import com.marklogic.client.datamovement.DataMovementManager;
+import com.marklogic.client.datamovement.FilteredForestConfiguration;
 import com.marklogic.client.datamovement.WriteBatcher;
 import com.marklogic.client.document.ServerTransform;
 import com.marklogic.client.io.Format;
@@ -33,8 +34,7 @@ public class DebugLibTest extends HubTestBase {
 
     @Before
     public void setup() {
-    	Assume.assumeTrue(!isLBRun());
-        basicSetup();
+    	basicSetup();
 
         Scaffolding scaffolding = Scaffolding.create(PROJECT_PATH, stagingClient);
         scaffolding.createFlow(entityName, flowName, FlowType.INPUT, CodeFormat.XQUERY, DataFormat.XML, false);
@@ -69,6 +69,10 @@ public class DebugLibTest extends HubTestBase {
         DataMovementManager dataMovementManager = stagingClient.newDataMovementManager();
         runFlowFailed = false;
         WriteBatcher batcher = dataMovementManager.newWriteBatcher();
+        if(isLBRun()) {
+        	batcher =  batcher.withForestConfig(
+  		          new FilteredForestConfiguration(dataMovementManager.readForestConfig()).withWhiteList(getHubAdminConfig().getLoadBalancerHosts()));
+        }
         batcher
             .withBatchSize(10)
             .withThreadCount(4)

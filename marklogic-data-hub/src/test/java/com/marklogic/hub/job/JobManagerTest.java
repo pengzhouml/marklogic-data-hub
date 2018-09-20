@@ -131,18 +131,15 @@ public class JobManagerTest extends HubTestBase {
     @Test
     public void deleteOneJob() {
         assertEquals(4, getJobDocCount());
-        if(!isLBRun()) {
-        	assertEquals(8, getTracingDocCount());
-        }
+        assertEquals(8, getTracingDocCount());
+        
         JobManager manager = JobManager.create(jobClient);
         String jobs = jobIds.get(1);
 
         JobDeleteResponse actual = manager.deleteJobs(jobs);
 
         assertEquals(3, getJobDocCount());
-        if(!isLBRun()) {
-        	assertEquals(6, getTracingDocCount());
-        }
+        assertEquals(6, getTracingDocCount());
         assertEquals(1, actual.totalCount);
         assertEquals(0, actual.errorCount);
 
@@ -150,27 +147,22 @@ public class JobManagerTest extends HubTestBase {
         deleteJobsExpected.add(jobIds.get(1));
         assertEquals(deleteJobsExpected.size(), actual.deletedJobs.size());
         assertTrue(deleteJobsExpected.containsAll(actual.deletedJobs));
-        if(!isLBRun()) {
-        	assertEquals(2, actual.deletedTraces.size());
-        }
+        assertEquals(2, actual.deletedTraces.size());        
     }
 
     @Test
     public void deleteMultipleJobs() {
         assertEquals(3, jobIds.size());
         assertEquals(4, getJobDocCount());
-        if(!isLBRun()) {
-        	assertEquals(8, getTracingDocCount());
-        }
+        assertEquals(8, getTracingDocCount());
+        
         String jobs = jobIds.get(0) + "," + jobIds.get(2);
         JobManager manager = JobManager.create(jobClient);
 
         JobDeleteResponse actual = manager.deleteJobs(jobs);
 
         assertEquals(2, getJobDocCount());
-        if(!isLBRun()) {
-        	assertEquals(4, getTracingDocCount());
-        }
+        assertEquals(4, getTracingDocCount());
         assertEquals(2, actual.totalCount);
         assertEquals(0, actual.errorCount);
 
@@ -179,9 +171,7 @@ public class JobManagerTest extends HubTestBase {
         deleteJobsExpected.add(jobIds.get(2));
         assertEquals(deleteJobsExpected.size(), actual.deletedJobs.size());
         assertTrue(deleteJobsExpected.containsAll(actual.deletedJobs));
-        if(!isLBRun()) {
-        	assertEquals(4, actual.deletedTraces.size());
-        }
+        assertEquals(4, actual.deletedTraces.size());       
     }
 
     @Test
@@ -191,9 +181,7 @@ public class JobManagerTest extends HubTestBase {
         JobDeleteResponse actual = manager.deleteJobs("InvalidId");
 
         assertEquals(4, getJobDocCount());
-        if(!isLBRun()) {
-        	assertEquals(8, getTracingDocCount());
-        }
+        assertEquals(8, getTracingDocCount());
         assertEquals(0, actual.totalCount);
         assertEquals(1, actual.errorCount);
     }
@@ -205,9 +193,7 @@ public class JobManagerTest extends HubTestBase {
         JobDeleteResponse actual = manager.deleteJobs("");
 
         assertEquals(4, getJobDocCount());
-        if(!isLBRun()) {
-        	assertEquals(8, getTracingDocCount());
-        }
+        assertEquals(8, getTracingDocCount());       
         assertEquals(0, actual.totalCount);
         assertEquals(0, actual.errorCount);
     }
@@ -219,9 +205,7 @@ public class JobManagerTest extends HubTestBase {
         JobDeleteResponse actual = manager.deleteJobs(null);
 
         assertEquals(4, getJobDocCount());
-        if(!isLBRun()) {
-        	assertEquals(8, getTracingDocCount());
-        }
+        assertEquals(8, getTracingDocCount());
         assertEquals(0, actual.totalCount);
         assertEquals(0, actual.errorCount);
     }
@@ -307,18 +291,13 @@ public class JobManagerTest extends HubTestBase {
         clearDatabases(HubConfig.DEFAULT_JOB_NAME);
 
         assertEquals(0, getJobDocCount());
-        if(!isLBRun()) {
-        	assertEquals(0, getTracingDocCount());
-        }
-
+        assertEquals(0, getTracingDocCount());
+        
         JobManager manager = JobManager.create(jobClient);
         manager.importJobs(Paths.get(url.toURI()));
 
         assertEquals(4, getJobDocCount());
-        if(!isLBRun()) {
-        	assertEquals(8, getTracingDocCount());
-        }
-
+        assertEquals(8, getTracingDocCount());
         // Check one of the (known) JSON trace documents to make sure it was loaded as JSON
         EvalResultIterator evalResults = runInDatabase("xdmp:type(fn:doc('/5177365055356498236.json'))", HubConfig.DEFAULT_JOB_NAME);
         if (evalResults.hasNext()) {
