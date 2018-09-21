@@ -428,11 +428,8 @@ public class MappingE2E extends HubTestBase {
 
             assertEquals(finalCounts.stagingCount, stagingCount);
             assertEquals(finalCounts.finalCount, finalCount);
-            if(! isLBRun()) {
-            	assertEquals(finalCounts.tracingCount, tracingCount);
-            }
+            assertEquals(finalCounts.tracingCount, tracingCount);
             assertEquals(finalCounts.jobCount, jobsCount);
-
             assertEquals(finalCounts.completedCount, completed.size());
             assertEquals(finalCounts.failedCount, failed.size());
 
