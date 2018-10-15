@@ -792,15 +792,17 @@ export default function(tmpDir) {
       //move to other harmonize flow and go back to the flow
       console.log('going to the other flow and back');
       flowPage.clickEntityDisclosure('TestEntity');
-      browser.wait(EC.visibilityOf(flowPage.getFlow('TestEntity', 'sjs json HARMONIZE', 'HARMONIZE')));
+      browser.wait(EC.elementToBeClickable(flowPage.getFlow('TestEntity', 'sjs json HARMONIZE', 'HARMONIZE')));
       expect(flowPage.getFlow('TestEntity', 'sjs json HARMONIZE', 'HARMONIZE').isPresent()).toBe(true);
       flowPage.getFlow('TestEntity', 'sjs json HARMONIZE', 'HARMONIZE').click();
-      browser.wait(EC.visibilityOf(flowPage.runHarmonizeButton()));
+      browser.wait(EC.elementToBeClickable(flowPage.runHarmonizeButton()));
       expect(flowPage.runHarmonizeButton().isPresent()).toBe(true);
       flowPage.clickEntityDisclosure('Product');
-      browser.wait(EC.visibilityOf(flowPage.getFlow('Product', 'Harmonize Products', 'HARMONIZE')));
+      browser.wait(EC.elementToBeClickable(flowPage.getFlow('Product', 'Harmonize Products', 'HARMONIZE')));
       expect(flowPage.getFlow('Product', 'Harmonize Products', 'HARMONIZE').isPresent()).toBe(true);
       flowPage.getFlow('Product', 'Harmonize Products', 'HARMONIZE').click();
+      browser.wait(EC.elementToBeClickable(flowPage.runHarmonizeButton()));
+      expect(flowPage.runHarmonizeButton().isPresent()).toBe(true);
       //verify the options are retained
       console.log('verify the flow options');
       browser.wait(EC.visibilityOf(flowPage.runHarmonizeButton()));
@@ -826,10 +828,10 @@ export default function(tmpDir) {
       appPage.flowsTab.click();
       flowPage.isLoaded();
       flowPage.clickEntityDisclosure('Product');
-      browser.wait(EC.visibilityOf(flowPage.getFlow('Product', 'Harmonize Products', 'HARMONIZE')));
+      browser.wait(EC.elementToBeClickable(flowPage.getFlow('Product', 'Harmonize Products', 'HARMONIZE')));
       expect(flowPage.getFlow('Product', 'Harmonize Products', 'HARMONIZE').isPresent()).toBe(true);
       flowPage.getFlow('Product', 'Harmonize Products', 'HARMONIZE').click();
-      browser.wait(EC.visibilityOf(flowPage.runHarmonizeButton()));
+      browser.wait(EC.elementToBeClickable(flowPage.runHarmonizeButton()));
       expect(flowPage.runHarmonizeButton().isPresent()).toBe(true);
       expect(flowPage.getKeyFlowOptionsByPosition(3).getAttribute('value')).toEqual('myDate');
       expect(flowPage.getValueFlowOptionsByPosition(3).getAttribute('value')).toEqual('2017-03-07');
