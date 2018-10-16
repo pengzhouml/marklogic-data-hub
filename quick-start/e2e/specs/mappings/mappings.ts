@@ -142,6 +142,7 @@ export default function() {
 
       it('should create Harmonize SKU flow on Product', function() {
         flowPage.clickEntityDisclosure('Product');
+        browser.sleep(5000);
         flowPage.createHarmonizeFlow('Product', 'Harmonize SKU', 'json', 'sjs', true, 'MapProduct');
         browser.wait(EC.elementToBeClickable(flowPage.getFlow('Product', 'Harmonize SKU', 'HARMONIZE')));
         expect(flowPage.getFlow('Product', 'Harmonize SKU', 'HARMONIZE').isDisplayed()).
@@ -155,6 +156,7 @@ export default function() {
       
       it('should run Harmonize SKU flow with mapping', function() {
         flowPage.clickEntityDisclosure('Product');
+        browser.sleep(5000);
         browser.wait(EC.elementToBeClickable(flowPage.getFlow('Product', 'Harmonize SKU', 'HARMONIZE')));
         expect(flowPage.getFlow('Product', 'Harmonize SKU', 'HARMONIZE').isPresent()).toBe(true);
         flowPage.getFlow('Product', 'Harmonize SKU', 'HARMONIZE').click();
