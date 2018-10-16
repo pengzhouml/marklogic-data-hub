@@ -658,6 +658,7 @@ export default function(tmpDir) {
     it ('should open the Entity disclosure', function() {
       flowPage.clickEntityDisclosure('TestEntity');
       browser.wait(EC.elementToBeClickable(flowPage.inputFlowButton('TestEntity')));
+      browser.sleep(5000);
     });
 
     it('should create sjs xml input flow with ES', function() {
