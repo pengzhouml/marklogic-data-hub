@@ -37,6 +37,7 @@ export default function() {
         browser.wait(EC.elementToBeClickable(flowPage.getFlow('WorldBank', 'Load WorldBank', 'INPUT')));
         flowPage.runInputFlow('WorldBank', 'Load WorldBank', 'json', 'worldbank', 'delimited_json', 
           '/worldbank', '?doc=yes&type=foo', true, 'zip');
+        browser.sleep(5000);
       });
 
       it('should verify the loaded data', function() {
