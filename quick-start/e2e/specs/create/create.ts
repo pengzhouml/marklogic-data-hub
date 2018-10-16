@@ -742,6 +742,7 @@ export default function(tmpDir) {
     
     it ('should open Product entity disclosure', function() {
       flowPage.clickEntityDisclosure('Product');
+      browser.wait(EC.elementToBeClickable(flowPage.inputFlowButton('Product')));
     });
 
     it ('should create input flow on Product entity', function() {
