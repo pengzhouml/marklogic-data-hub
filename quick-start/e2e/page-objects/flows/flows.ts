@@ -16,7 +16,7 @@ export class FlowPage extends AppPage {
   }
 
   isEntityCollapsed(entityName: string) {
-    return element(by.css(`div[data-entity="${entityName}"] .collapsed`)).isVisible();
+    return element(by.css(`div[data-entity="${entityName}"] .collapsed`)).isPresent();
   }
 
   clickEntityDisclosure(entityName: string) {
