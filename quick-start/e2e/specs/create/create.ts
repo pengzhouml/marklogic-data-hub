@@ -770,7 +770,7 @@ export default function(tmpDir) {
       flowPage.setKeyValueFlowOptionsByPosition(3, 'myDate', '2017-03-07');
     });
 
-    it ('should retain flow options when moving around', function() {
+    /*it ('should retain flow options when moving around', function() {
       //move to other tab and go back to flows tab
       console.log('going to the other tab and back');
       appPage.entitiesTab.click();
@@ -838,6 +838,6 @@ export default function(tmpDir) {
       //verify the flow options count
       console.log('verify the flow options count');
       flowPage.getFlowOptionsCount().then(function(flowOptions){expect(flowOptions).toEqual(3)});
-    });
+    });*/
   });
 }
