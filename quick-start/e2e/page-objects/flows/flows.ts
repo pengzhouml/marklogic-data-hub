@@ -26,8 +26,10 @@ export class FlowPage extends AppPage {
       browser.wait(EC.elementToBeClickable(this.inputFlowButton(entityName)));
     }*/
     this.entityDisclosure("PIIEntity").click();
+    browser.sleep(3000);
     browser.wait(EC.elementToBeClickable(this.inputFlowButton("PIIEntity")));
     this.entityDisclosure(entityName).click();
+    browser.sleep(3000);
     browser.wait(EC.elementToBeClickable(this.inputFlowButton(entityName)));
   }
 
