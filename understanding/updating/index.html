@@ -1,0 +1,682 @@
+<!doctype html>
+<!--[if lt IE 7 ]><html itemscope itemtype="http://schema.org/Organization" id="ie6" class="ie ie-old" lang="en-US"><![endif]-->
+<!--[if IE 7 ]>   <html itemscope itemtype="http://schema.org/Organization" id="ie7" class="ie ie-old" lang="en-US"><![endif]-->
+<!--[if IE 8 ]>   <html itemscope itemtype="http://schema.org/Organization" id="ie8" class="ie ie-old" lang="en-US"><![endif]-->
+<!--[if IE 9 ]>   <html itemscope itemtype="http://schema.org/Organization" id="ie9" class="ie" lang="en-US"><![endif]-->
+<!--[if gt IE 9]><!--><html itemscope itemtype="http://schema.org/Organization" lang="en-US"><!--<![endif]-->
+<head>
+
+    <!-- Meta -->
+    <meta charset="utf-8">
+    <title>Upgrading DHF - Data Hub Framework</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <meta content="yes" name="apple-mobile-web-app-capable">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+    <!-- Favicons -->
+    <link rel="shortcut icon" sizes="16x16 24x24 32x32 48x48 64x64 96x96" href="/marklogic-data-hub/favicon.ico">
+    <meta name="application-name" content="Data Hub Framework - A data hub framework for MarkLogic">
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-6638631-15', 'auto');
+      ga('send', 'pageview');
+
+    </script>
+
+    <!-- Facebook Pixel Code -->
+    <script>
+    !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+    n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+    document,'script','https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '1879746318909687'); // Insert your pixel ID here.
+    fbq('track', 'PageView');
+    </script>
+    <noscript><img height="1" width="1" style="display:none"
+    src="https://www.facebook.com/tr?id=1879746318909687&ev=PageView&noscript=1"
+    /></noscript>
+    <!-- DO NOT MODIFY -->
+    <!-- End Facebook Pixel Code -->
+    <link type="text/css" rel="stylesheet" href="/marklogic-data-hub/assets/bundle.css">
+</head>
+<body class="">
+
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="/marklogic-data-hub">
+                  <span class="logo">
+                    <img src="/marklogic-data-hub/images/logo-marklogic.svg" width="150px" height="36px" alt="MarkLogic" title="MarkLogic" scale="0">
+                  </span>
+                  Data Hub Framework
+                </a>
+            </div>
+            <div id="navbar" class="navbar-collapse collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    
+                        <li  >
+                            
+                            <a href="/marklogic-data-hub/">Getting Started</a>
+                            
+                        </li>
+                    
+                        <li  >
+                            
+                            <a href="/marklogic-data-hub/tutorial/">Tutorial</a>
+                            
+                        </li>
+                    
+                        <li  >
+                            
+                            <a href="https://github.com/marklogic/marklogic-data-hub">DHF on GitHub</a>
+                            
+                        </li>
+                    
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+
+
+
+  <div class="bannered-image">
+  <picture>
+    <source srcset="/marklogic-data-hub/images/Solution-enterprise-data-hub-xs.jpg" media="(max-width: 400px)">
+    <source srcset="/marklogic-data-hub/images/Solution-enterprise-data-hub-sm.jpg" media="(max-width: 800px)">
+    <source srcset="/marklogic-data-hub/images/Solution-enterprise-data-hub-lg.jpg" media="(min-width: 801px)">
+    <img srcset="/marklogic-data-hub/images/Solution-enterprise-data-hub-lg.jpg" alt="Operational Data Hub" scale="0">
+  </picture>
+  <div class="banner banner-light banner-center text-center">
+    <div class="center-container">
+      <div class="centered-text">
+        <div class="col-sm-12 text-right text-center">
+          <img alt="dhf icon" src="/marklogic-data-hub/images/odh.svg" scale="0" class="icon-left">
+          <h3>
+          
+            Upgrading DHF
+          
+          </h3>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+  <article>
+    <div class="container">
+      <div class="row">
+        <div class="side-nav col-md-2 hide-small">
+          <div class="panel panel-default">
+  <div class="panel-heading">Navigation</div>
+  <ul class="list-group">
+  
+  <li  class="list-group-item"  >
+    
+    <a href="/marklogic-data-hub/">Getting Started</a>
+    
+    
+  </li>
+  
+  <li  class="list-group-item"  >
+    
+    <a href="/marklogic-data-hub/understanding/">Understanding DHF</a>
+    
+    
+      <ul class="list-group">
+  
+  <li  class="list-group-item"  >
+    
+    <a href="/marklogic-data-hub/understanding/concepts/">Concepts</a>
+    
+    
+  </li>
+  
+  <li  class="list-group-item"  >
+    
+    <a href="/marklogic-data-hub/understanding/architecture/">Organization</a>
+    
+    
+  </li>
+  
+  <li  class="list-group-item"  >
+    
+    <a href="/marklogic-data-hub/understanding/how-it-works/">How It Works</a>
+    
+    
+  </li>
+  
+  <li  class="list-group-item"  >
+    
+    <a href="/marklogic-data-hub/understanding/flowtracing/">Flow Tracing</a>
+    
+    
+  </li>
+  
+  <li  class="list-group-item"  >
+    
+    <a href="/marklogic-data-hub/understanding/project-structure/">Project Structure</a>
+    
+    
+  </li>
+  
+  <li  class="list-group-item active"  >
+    
+    <a href="/marklogic-data-hub/understanding/updating/">Upgrading DHF</a>
+    
+    
+  </li>
+  
+</ul>
+
+    
+  </li>
+  
+  <li  class="list-group-item"  >
+    
+    <a href="/marklogic-data-hub/tutorial/">Tutorial</a>
+    
+    
+  </li>
+  
+  <li  class="list-group-item"  >
+    
+    <a href="/marklogic-data-hub/using/">Using DHF</a>
+    
+    
+      <ul class="list-group">
+  
+  <li  class="list-group-item"  >
+    
+    <a href="/marklogic-data-hub/project/">Create a Project</a>
+    
+    
+      <ul class="list-group">
+  
+  <li  class="list-group-item"  >
+    
+    <a href="/marklogic-data-hub/project/quickstart/">QuickStart</a>
+    
+    
+  </li>
+  
+  <li  class="list-group-item"  >
+    
+    <a href="/marklogic-data-hub/project/gradle/">Gradle Plugin</a>
+    
+    
+  </li>
+  
+  <li  class="list-group-item"  >
+    
+    <a href="/marklogic-data-hub/project/dhsdeploy/">Deploying to a Data Hub Service</a>
+    
+    
+  </li>
+  
+</ul>
+
+    
+  </li>
+  
+  <li  class="list-group-item"  >
+    
+    <a href="/marklogic-data-hub/ingest/">Ingest</a>
+    
+    
+      <ul class="list-group">
+  
+  <li  class="list-group-item"  >
+    
+    <a href="/marklogic-data-hub/ingest/quickstart/">QuickStart</a>
+    
+    
+  </li>
+  
+  <li  class="list-group-item"  >
+    
+    <a href="/marklogic-data-hub/ingest/mlcp/">MLCP</a>
+    
+    
+  </li>
+  
+  <li  class="list-group-item"  >
+    
+    <a href="/marklogic-data-hub/ingest/marklogic-client-api/">Java Client API</a>
+    
+    
+  </li>
+  
+  <li  class="list-group-item"  >
+    
+    <a href="/marklogic-data-hub/ingest/rest/">REST Client API</a>
+    
+    
+  </li>
+  
+</ul>
+
+    
+  </li>
+  
+  <li  class="list-group-item"  >
+    
+    <a href="/marklogic-data-hub/govern/">Govern</a>
+    
+    
+      <ul class="list-group">
+  
+  <li  class="list-group-item"  >
+    
+    <a href="/marklogic-data-hub/govern/pii/">Managing PII</a>
+    
+    
+  </li>
+  
+</ul>
+
+    
+  </li>
+  
+  <li  class="list-group-item"  >
+    
+    <a href="/marklogic-data-hub/harmonize/">Harmonize</a>
+    
+    
+      <ul class="list-group">
+  
+  <li  class="list-group-item"  >
+    
+    <a href="/marklogic-data-hub/harmonize/quickstart/">QuickStart</a>
+    
+    
+  </li>
+  
+  <li  class="list-group-item"  >
+    
+    <a href="/marklogic-data-hub/harmonize/gradle/">Gradle</a>
+    
+    
+  </li>
+  
+  <li  class="list-group-item"  >
+    
+    <a href="/marklogic-data-hub/harmonize/java/">Java Library</a>
+    
+    
+  </li>
+  
+  <li  class="list-group-item"  >
+    
+    <a href="/marklogic-data-hub/harmonize/rest/">REST</a>
+    
+    
+  </li>
+  
+  <li  class="list-group-item"  >
+    
+    <a href="/marklogic-data-hub/harmonize/mapping/">Using Model-to-Model Mapping</a>
+    
+    
+  </li>
+  
+</ul>
+
+    
+  </li>
+  
+  <li  class="list-group-item"  >
+    
+    <a href="/marklogic-data-hub/serve/">Serve (REST, ODBC)</a>
+    
+    
+  </li>
+  
+</ul>
+
+    
+  </li>
+  
+  <li  class="list-group-item"  >
+    
+    <a href="/marklogic-data-hub/docs/">Docs</a>
+    
+    
+      <ul class="list-group">
+  
+  <li  class="list-group-item"  >
+    
+    <a href="/marklogic-data-hub/docs/server-side/">Server Side (xqy, sjs)</a>
+    
+    
+  </li>
+  
+  <li  class="list-group-item"  >
+    
+    <a href="/marklogic-data-hub/docs/gradle-tasks/">Gradle Tasks</a>
+    
+    
+  </li>
+  
+  <li  class="list-group-item"  >
+    
+    <a href="/marklogic-data-hub/javadocs/">Javadocs</a>
+    
+    
+  </li>
+  
+  <li  class="list-group-item"  >
+    
+    <a href="/marklogic-data-hub/docs/architecture/">Architecture</a>
+    
+    
+  </li>
+  
+  <li  class="list-group-item"  >
+    
+    <a href="/marklogic-data-hub/docs/security/">Security</a>
+    
+    
+  </li>
+  
+  <li  class="list-group-item"  >
+    
+    <a href="/marklogic-data-hub/docs/gradleproperties/">Property Reference</a>
+    
+    
+  </li>
+  
+  <li  class="list-group-item"  >
+    
+    <a href="/marklogic-data-hub/docs/release-notes/">Release Notes</a>
+    
+    
+  </li>
+  
+</ul>
+
+    
+  </li>
+  
+  <li  class="list-group-item"  >
+    
+    <a href="/marklogic-data-hub/faqs/">FAQs</a>
+    
+    
+  </li>
+  
+  <li  class="list-group-item"  >
+    
+    <a href="https://github.com/marklogic/marklogic-data-hub">DHF on GitHub</a>
+    
+    
+  </li>
+  
+</ul>
+
+</div>
+
+        </div>
+        <div class="col-md-10">
+          <p>This page contains the following topics related to upgrading Data Hub Framework and your DHF project.</p>
+<ul>
+  <li><a href="#required-software">Required Software</a></li>
+  <li><a href="#supported-upgrade-paths">Supported Upgrade Paths</a></li>
+  <li><a href="#how-to-upgrade-data-hub-framework">How to Upgrade Data Hub Framework</a></li>
+  <li><a href="#notes-for-upgrading-to-the-latest-version">Notes for Upgrading to the Latest Version</a></li>
+</ul>
+
+<h2 id="required-software">Required Software</h2>
+
+<p>The software listed in this section is required for using Data Hub Framework for development and for deployment of ingestion and harmonization flows. Production applications that just use harmonized data have no intrinsic dependency on DHF.</p>
+
+<p>Data Hub Framework requires the following software:</p>
+<ul>
+  <li>MarkLogic Server; see the support matrix below.</li>
+  <li>Oracle Java 8 JRE (client-side)</li>
+</ul>
+
+<p>In addition, the QuickStart tool requires the following software:</p>
+<ul>
+  <li>A modern browser, such as Chrome or Firefox (client-side)</li>
+</ul>
+
+<p>The following table lists the minimum version of MarkLogic required by supported versions of the Data Hub Framework.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>DHF Version</th>
+      <th>Min. MarkLogic Version</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>2.0.4+</td>
+      <td>9.0-5</td>
+    </tr>
+    <tr>
+      <td>3.0.0</td>
+      <td>9.0-5</td>
+    </tr>
+    <tr>
+      <td>4.0.x</td>
+      <td>9.0-5*</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Deploying a DHF project or application into a MarkLogic Data Hub Service environment requires DHF 4.0.1 or later and MarkLogic 9.0-7 or later. For details, refer to the Data Hub Service documentation and https://www.marklogic.com/product/marklogic-database-overview/data-hub-service/.</p>
+
+<h2 id="supported-upgrade-paths">Supported Upgrade Paths</h2>
+
+<p>DHF supports the following upgrade paths:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>From Version</th>
+      <th>To Version</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>3.0.0</td>
+      <td>4.x</td>
+    </tr>
+    <tr>
+      <td>2.0.4+</td>
+      <td>4.x</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>You must be running at least DHF 2.0.4 before upgrading to version 4.0.0 or later. If you are running an earlier version of DHF, first upgrade to the latest 2.0.x version.</p>
+
+<p>If you are upgrading both DHF and MarkLogic, you can upgrade them independently of each other as long as you are running at least the <a href="#required-software">minimally supported version of MarkLogic</a>. If you are running an older version of MarkLogic, then you should upgrade MarkLogic before upgrading DHF.</p>
+
+<h2 id="how-to-upgrade-data-hub-framework">How to Upgrade Data Hub Framework</h2>
+<p>Use the following procedure to upgrade your project to a new version of DHF:</p>
+
+<ol>
+  <li>Back up your project. For example, ensure your project is under source control and all changes are checked in.</li>
+  <li>Review the <a href="/marklogic-data-hub/docs/release-notes">release notes</a> and the <a href="#notes-for-upgrading-to-the-latest-version">upgrade notes</a> on this page.</li>
+  <li>
+    <p>Update the <code class="highlighter-rouge">dependencies</code> section of <code class="highlighter-rouge">YOUR_PROJECT/build.gradle</code> to use the latest version of DHF. For example, if your build.gradle file contained the following dependencies and you want to upgrade to DHF 4.0.1, change the DHF version on the <code class="highlighter-rouge">com.marklogic:marklogic-data-hub</code> line from 3.0.0 to 4.0.1:</p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>dependencies {
+  compile 'com.marklogic:marklogic-data-hub:3.0.0'
+  compile 'com.marklogic:marklogic-xcc:9.0.6'
+}
+</code></pre></div>    </div>
+  </li>
+  <li>Run the <code class="highlighter-rouge">hubUpdate</code> gradle task in your project directory. For example:</li>
+</ol>
+
+<div class="code-tabs">
+  <ul class="nav nav-tabs" role="tablist">
+    <li role="presentation" class="active">
+      <a role="tab" aria-controls="linux-1" href="#linux-1">Unix Systems</a>
+    </li>
+    <li role="presentation" class="">
+      <a role="tab" aria-controls="windows-1" href="#windows-1">Windows</a>
+    </li>
+  </ul>
+  <div class="tab-content">
+    <div role="tabpanel" class="tab-pane active" id="linux-1">
+      <pre class="cmdline">./gradlew hubUpdate</pre>
+    </div>
+    <div role="tabpanel" class="tab-pane" id="windows-1">
+      <pre class="cmdline">gradlew.bat hubUpdate</pre>
+    </div>
+  </div>
+</div>
+
+<p>The <code class="highlighter-rouge">hubUpdate</code> task might report incompatibilities that you must correct.</p>
+<ol>
+  <li>If you upgrade to DHF 4.0.0 or later, update your <code class="highlighter-rouge">gradle properties</code> file to set <code class="highlighter-rouge">mlDHFVersion</code> to your new DHF version. For example, if you upgrade to DHF 4.0.1, then your <code class="highlighter-rouge">gradle.properties</code> file should contain the following: <code class="highlighter-rouge">mlDHFVersion=4.0.1</code>.</li>
+</ol>
+
+<p>You should also update the DHF version in the <code class="highlighter-rouge">dependencies</code> section of any custom build.gradle files that depend on DHF.</p>
+
+<h2 id="notes-for-upgrading-to-the-latest-version">Notes for Upgrading to the Latest Version</h2>
+
+<p>Before upgrading your DHF project, you should review the <a href="/marklogic-data-hub/docs/release-notes#changes-and-incompatibilities">Changes and Incompatibilities</a> section of the release notes and the following additional notes appropriate to your current DHF version:</p>
+
+<ul>
+  <li><a href="#upgrading-a-project-with-a-custom-hub-name">Upgrading a Project with a Custom Hub Name</a></li>
+  <li><a href="#upgrading-from-204-to-40x">Upgrading from 2.0.4+ to 4.0.x</a> for upgrading from any 2.0.x from 2.0.4 onwards.</li>
+  <li><a href="#upgrading-from-300-to-40x">Upgrading from 3.0.0 to 4.0.x</a></li>
+</ul>
+
+<h2 id="upgrading-a-project-with-a-custom-hub-name">Upgrading a Project with a Custom Hub Name</h2>
+
+<p>When you create a project, DHF prefixes the databases and App Servers it configures with “data-hub” by default. For example, DHF creates a database named “data-hub-MODULES” and an App Server named “data-hub-STAGING” by default.</p>
+
+<p>If your project does not use “data-hub” for this prefix, the 4.0.x upgrade process will not properly upgrade your gradle.properties and other configuration files. We recommend you use the following procedure if your project does not use the “data-hub” prefix for database and App Server names:</p>
+
+<ol>
+  <li>Create a new DHF 4.0.x project. For example, run the <code class="highlighter-rouge">hubInit</code> gradle task in a new directory.</li>
+  <li>Migrate your customizations and flows to the new project. This includes changing the name of your databases and App Servers in gradle.properties (or gradle-local.properties).</li>
+  <li>Copy the plugins directory from your old project into the new project directory.</li>
+  <li>If you are upgrading from DHF 2.0.x, run the <code class="highlighter-rouge">hubUpdate</code> gradle task in the new project directory. This step is not necessary when upgrading from DHF 3.0.x.</li>
+</ol>
+
+<p>Note that there a several new gradle properties related to your hub databases and App Servers. You will need to update them to use the desired hub prefix.</p>
+
+<p>For example, where previously your <code class="highlighter-rouge">gradle.properties</code> or <code class="highlighter-rouge">gradle-local.properties</code> file contained a setting for <code class="highlighter-rouge">mlTriggersDbName</code>, now it must contain a setting for <code class="highlighter-rouge">mlStagingTriggersDbName</code> and <code class="highlighter-rouge">mlFinalTriggersDbName</code>. This requirement is a side-effect of the following change described in the release notes:</p>
+
+<ul>
+  <li><a href="/marklogic-data-hub/docs/release-notes/#independent-staging-and-final-app-server-stacks">Independent <strong>STAGING</strong> and <strong>FINAL</strong> App Server Stacks Stacks</a></li>
+</ul>
+
+<h3 id="upgrading-from-300-to-40x">Upgrading from 3.0.0 to 4.0.x</h3>
+<p>The upgrades notes in this section apply specifically to upgrading from DHF 3.0.0 to DHF 4.0.0 and later. You should also review the <a href="/marklogic-data-hub/docs/release-notes">release notes</a> for more generally applicable information.</p>
+
+<ul>
+  <li><a href="#dhf-core-library-installation-changes">DHF Core Library Installation Changes</a></li>
+</ul>
+
+<h4 id="dhf-core-library-installation-changes">DHF Core Library Installation Changes</h4>
+
+<p>The DHF core library modules for DHF 3.0.0 were installed with MarkLogic. Those modules are now obsolete, and upgrading MarkLogic will no longer introduce new versions of the DHF core.</p>
+
+<p>When you upgrade to DHF 4.0.x or install it for the first time, the DHF core library modules are automatically installed on MarkLogic in the modules database shared by your <strong>STAGING</strong> and <strong>FINAL</strong> environments.</p>
+
+<p>This change should be transparent to your application, aside from the module path change described in <a href="/marklogic-data-hub/docs/release-notes#new-dhf-core-server-side-module-paths">New DHF Core Server-Side Module Paths</a>.</p>
+
+<h3 id="upgrading-from-204-to-40x">Upgrading from 2.0.4+ to 4.0.x</h3>
+<p>The upgrades notes in this section apply specifically to upgrading from DHF 2.0.4 or a later 2.0.x release to DHF 4.0.x. You should also review the <a href="/marklogic-data-hub/docs/release-notes">release notes</a> for more generally applicable information.</p>
+
+<p>If you are upgrading from a DHF version older than 2.0.4, you should first upgrade to the latest 2.0.x version.</p>
+
+<ul>
+  <li><a href="#support-for-server-side-javascript-flow-plug-ins">Support for Server-Side JavaScript Flow Plug-ins</a></li>
+  <li><a href="#writer-plugin-invocation-change">Writer Plugin Invocation Change</a></li>
+  <li><a href="#changes-to-the-mlcp-command-line">Changes to the mlcp Command Line</a></li>
+  <li><a href="#security-model-changes">Security Model Changes</a></li>
+</ul>
+
+<h4 id="support-for-server-side-javascript-flow-plug-ins">Support for Server-Side JavaScript Flow Plug-ins</h4>
+<p>Data Hub Framework now supports Server-Side Javascript flows. Javascript is now the default language for newly created flows, and the DHF core library modules have both XQuery and Server-Side JavaScript implementations. You should use the XQuery core with XQuery plugin code, and the JavaScript core with JavaScript plugin code.</p>
+
+<p>If you upgrade a DHF 2.0.x project then the upgrade modifies any JavaScript plugin code to rely on the DHF core JavaScript library modules.</p>
+
+<p>If your project uses JavaScript plugins or custom code, you should review your code to ensure you only <code class="highlighter-rouge">require</code> the JavaScript version of any DHF library modules.</p>
+
+<p>For example, if your plugin code contains the following before upgrade:</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>const dhf = require('/com.marklogic/hub/dhf.xqy');
+</code></pre></div></div>
+<p>Then the same line should read as follows after upgrading DHF:</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>const dhf = require('/data-hub/4/dhf.sjs');
+</code></pre></div></div>
+
+<h4 id="writer-plugin-invocation-change">Writer Plugin Invocation Change</h4>
+
+<p>The way in which you invoke the writer plugin from JavaScript has changed. Upgrading should take care of this for you, but if you have customized your main.sjs harmonization plugin or have custom code that invokes the writer directly, you might need to modify the invocation.</p>
+
+<p>For example, the call the <code class="highlighter-rouge">dhf.runWriter</code> in <code class="highlighter-rouge">main.sjs</code> previously looked like the following:</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>dhf.runWriter(xdmp.function(null, './writer.sjs'), id, envelope, options);
+</code></pre></div></div>
+<p>After upgrading, the same code in <code class="highlighter-rouge">main.sjs</code> should look like the following:</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>const writerPlugin = require('./writer.sjs ');
+// ...
+dhf.runWriter(writerPlugin, id, envelope, options);
+</code></pre></div></div>
+
+<h4 id="changes-to-the-mlcp-command-line">Changes to the mlcp Command Line</h4>
+
+<p>If you have scripts that drive ingestion flows using mlcp rather than  ml-gradle or QuickStart, you must add the following option to your mlcp command line:</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>-modules_root "/"
+</code></pre></div></div>
+
+        </div>
+      </div>
+    </div>
+  </article>
+
+
+    <footer class="site-footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <p>
+                    Copyright © 2016-2018 MarkLogic Corporation. All Rights Reserved. MARKLOGIC® is a registered trademark of MarkLogic Corporation.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+
+    <!--[if lt IE 9]>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.2/html5shiv.min.js"></script>
+        <script src="/marklogic-data-hub/js/respond.min.js"></script>
+    <![endif]-->
+
+    <script type="text/javascript" src="/marklogic-data-hub/assets/bundle.js" id="1"></script>
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-79716597-1', 'auto');
+      ga('send', 'pageview');
+    </script>
+  </body>
+</html>
+
